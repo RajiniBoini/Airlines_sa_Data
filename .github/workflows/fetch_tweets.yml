@@ -2,8 +2,11 @@ name: Fetch JetBlue Tweets
 
 on:
   schedule:
-    - cron: "*/15 * * * *"  # Every 15 minutes
+    - cron: "*/15 * * * *"
   workflow_dispatch:
+
+permissions:
+  contents: write
 
 jobs:
   fetch-and-commit:
@@ -12,6 +15,8 @@ jobs:
     steps:
     - name: Checkout repo
       uses: actions/checkout@v3
+      with:
+        token: ${{ secrets.GITHUB_TOKEN }}
 
     - name: Set up Python
       uses: actions/setup-python@v4
@@ -31,6 +36,5 @@ jobs:
         git config --global user.name "github-actions"
         git config --global user.email "github-actions@github.com"
         git add jetblue_tweets.csv
-        git commit -m "Update JetBlue tweets"
+        git commit -m "Update JetBlue tweets" || echo "No changes to commit"
         git push
-      continue-on-error: true  # Prevent failure if no new tweets
