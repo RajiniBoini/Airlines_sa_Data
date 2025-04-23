@@ -2,7 +2,7 @@ name: Fetch JetBlue Tweets
 
 on:
   schedule:
-    - cron: "*/55 * * * *"
+    - cron: "*/455 * * * *"
   workflow_dispatch:
 
 permissions:
